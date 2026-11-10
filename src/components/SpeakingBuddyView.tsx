@@ -4,7 +4,7 @@ import { UnitData, SpeakingChallenge } from '../data/unitsData';
 import { SpeakingFeedback, UserProgress } from '../types';
 import { speakText, sounds } from '../utils/speechUtils';
 import confetti from 'canvas-confetti';
-
+import { saveResultToLocalStorage } from '../utils/resultHelper';
 interface SpeakingBuddyViewProps {
   currentUnit: UnitData;
   userProgress: UserProgress;
