@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GLOBAL_SUCCESS_UNITS } from '../data/unitsData';
 import { CheckCircle } from 'lucide-react';
-
+import { saveResultToLocalStorage } from '../utils/resultHelper';
 interface Assignment {
   id: string;
   unitNumber: number;
@@ -42,6 +42,11 @@ export const AssignmentHub: React.FC = () => {
       });
       if (res.ok) {
         await fetchAssignments();
+        saveResultToLocalStorage(
+          `Unit ${selectedUnit}: ${unit?.title || ''}`, 
+          "Assignment", 
+          90
+        );
       }
     } catch (e) {
       console.error('Assign error', e);
