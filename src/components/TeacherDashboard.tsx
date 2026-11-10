@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, Flame, CheckCircle2, Mic, Trash2 } from 'lucide-react';
 import { UserProgress } from '../types';
 
@@ -9,8 +9,37 @@ interface TeacherDashboardProps {
   onAddStudent: () => void;
   onDeleteStudent: (id: string) => void;
 }
-
+interface StudentResult {
+  studentId: string;
+  studentName: string;
+  lesson: string;
+  type: string;
+  score: number;
+  timestamp: string;
+}
 export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ classStudents, onEditStudent, onSelectStudent, onAddStudent, onDeleteStudent }) => {
+  export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ classStudents, onEditStudent, onSelectStudent, onAddStudent, onDeleteStudent }) => {
+  // --- DÁN ĐOẠN NÀY VÀO ĐÂY ---
+  const [studentResults, setStudentResults] = useState<StudentResult[]>([]);
+
+  useEffect(() => {
+    const loadResults = () => {
+      const stored = localStorage.getItem('student_results');
+      if (stored) {
+        try {
+          setStudentResults(JSON.parse(stored));
+        } catch (e) {
+          console.error('Lỗi phân tích student_results', e);
+        }
+      }
+    };
+    loadResults();
+  }, []);
+  // -----------------------------
+
+  const totalStudents = classStudents.length;
+  const avgStreak = totalStudents === 0 ? 0 : Math.round(classStudents.reduce((sum, s) => sum + (s.streak ?? 0), 0) / totalStudents);
+  // ... các dòng tiếp theo giữ nguyên ...
   const totalStudents = classStudents.length;
   const avgStreak = totalStudents === 0 ? 0 : Math.round(classStudents.reduce((sum, s) => sum + (s.streak ?? 0), 0) / totalStudents);
   const avgCompletion = totalStudents === 0 ? 0 : Math.round(classStudents.reduce((sum, s) => sum + (s.wordsReviewedToday ?? 0), 0) / totalStudents);
