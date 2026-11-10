@@ -140,7 +140,11 @@ export const SpeakingBuddyView: React.FC<SpeakingBuddyViewProps> = ({
       onAddXp(data.xpGained || 35);
       onCompleteSpeaking();
       sounds.playSuccess();
-
+saveResultToLocalStorage(
+        `Unit ${currentUnit.unitNumber}: ${currentUnit.title}`, 
+        "Speaking Buddy", 
+        data.overallScore
+      );
       if (data.overallScore >= 80) {
         confetti({
           particleCount: 60,
