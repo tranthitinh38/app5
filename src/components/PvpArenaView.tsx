@@ -4,7 +4,7 @@ import { UnitData, GLOBAL_SUCCESS_UNITS } from '../data/unitsData';
 import { UserProgress } from '../types';
 import { sounds } from '../utils/speechUtils';
 import confetti from 'canvas-confetti';
-
+import { saveResultTestLocalStorage } from '../utils/resultHelper'; // Hoặc import { saveResultToLocalStorage }
 interface PvpArenaViewProps {
   currentUnit: UnitData;
   userProgress: UserProgress;
@@ -146,6 +146,12 @@ export const PvpArenaView: React.FC<PvpArenaViewProps> = ({
         setGameState('ended');
         const won = pHealth > oHealth;
         onRecordPvpResult(won);
+        const pvpScore = won ? 100 : 40;
+        saveResultToLocalStorage(
+          `Unit ${currentUnit.unitNumber}: ${currentUnit.title}`, 
+          "PvP Arena", 
+          pvpScore
+        );
         if (won) {
           sounds.playStreak();
           onAddXp(80 + (userProgress.streak >= 3 ? 20 : 0));
