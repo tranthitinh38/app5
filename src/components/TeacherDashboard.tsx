@@ -134,7 +134,62 @@ export const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ classStudent
               ))}
             </tbody>
           </table>
+        </div> {/* Bảng Nhật ký Kết quả của Học sinh từ LocalStorage */}
+      <div className="rounded-3xl bg-slate-900 border border-slate-800 p-6 mt-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-black text-white">📋 Nhật ký kết quả làm bài của học sinh</h3>
+          <button
+            onClick={() => {
+              const stored = localStorage.getItem('student_results');
+              if (stored) setStudentResults(JSON.parse(stored));
+            }}
+            className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-xs font-bold text-white transition cursor-pointer"
+          >
+            🔄 Tải lại dữ liệu
+          </button>
         </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto text-sm text-left text-slate-300">
+            <thead className="text-xs uppercase bg-slate-800">
+              <tr>
+                <th className="px-4 py-2">#</th>
+                <th className="px-4 py-2">Học sinh</th>
+                <th className="px-4 py-2">Bài học (Lesson)</th>
+                <th className="px-4 py-2">Phân loại (Module)</th>
+                <th className="px-4 py-2">Điểm số</th>
+                <th className="px-4 py-2">Thời gian nộp</th>
+              </tr>
+            </thead>
+            <tbody>
+              {studentResults.length > 0 ? (
+                studentResults.map((res, idx) => (
+                  <tr key={idx} className="border-b border-slate-700 hover:bg-slate-800">
+                    <td className="px-4 py-2">{idx + 1}</td>
+                    <td className="px-4 py-2 font-bold text-emerald-400">{res.studentName || 'Học sinh'}</td>
+                    <td className="px-4 py-2 text-white font-medium">{res.lesson}</td>
+                    <td className="px-4 py-2">
+                      <span className="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 text-xs border border-purple-500/30 font-semibold">
+                        {res.type}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2 font-black text-amber-400">{res.score} điểm</td>
+                    <td className="px-4 py-2 text-xs text-slate-400">
+                      {new Date(res.timestamp).toLocaleString('vi-VN')}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="px-4 py-8 text-center text-slate-500 italic">
+                    Chưa có kết quả học tập nào được lưu từ học sinh. Hãy làm thử bài tập ở các module để hệ thống ghi nhận!
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
       </div>
     </div>
   );
