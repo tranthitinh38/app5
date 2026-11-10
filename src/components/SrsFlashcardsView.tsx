@@ -4,7 +4,7 @@ import { UnitData, VocabularyItem, GLOBAL_SUCCESS_UNITS } from '../data/unitsDat
 import { UserProgress } from '../types';
 import { speakText, sounds } from '../utils/speechUtils';
 import confetti from 'canvas-confetti';
-
+import { saveResultToLocalStorage } from '../utils/resultHelper';
 interface SrsFlashcardsViewProps {
   currentUnit: UnitData;
   userProgress: UserProgress;
